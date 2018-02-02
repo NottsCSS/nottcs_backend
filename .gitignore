@@ -1,0 +1,6 @@
+Nott_CS_VE
+__pycache__
+*.pyc
+db.sqlite3
+.vscode
+secret_key.py
