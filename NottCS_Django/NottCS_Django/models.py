@@ -12,14 +12,16 @@ class Names(models.Model):
     
 class pictures(models.Model):
     #club pic and logo fields , width and height as arguments
+    club_picQuestion = models.CharField('Upload club photo here: ')
     club_pic = models.ImageField(width_field= 300, height_field= 300)
+    club_iconQuestion = models.CharField('Upload club logo here ')
     club_icon = models.ImageField(width_field = 20, height_field = 20)
 
 class timestamp(models.Model):
     #timestamp below
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-    def __str__(self)
+    def __str__(self):
         return self.created_at
         return self.updated_at
 
