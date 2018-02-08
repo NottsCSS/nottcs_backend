@@ -37,7 +37,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #External apps
+    'rest_framework',
+
+    #Custom apps
+    'azureAD_auth',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES':[
+        'azureAD_auth.perms.IsAzureADAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'azureAD_auth.auth.AzureADSocialAuthentication',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
