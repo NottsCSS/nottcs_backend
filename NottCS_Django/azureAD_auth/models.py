@@ -6,8 +6,8 @@ Does not contain password and act as a reference
 and a location to store student_id and library_no
 '''
 class AzureADUser(models.Model):
-    name = models.CharField(max_length = 100)
-    email = models.EmailField(unique=True)
+    name = models.CharField(max_length = 100, null=False)
+    email = models.EmailField(unique=True, null=False)
     student_id = models.PositiveIntegerField(blank=True, null=True)
     library_no = models.PositiveIntegerField(blank=True, null=True)
     is_authenticated = models.BooleanField(default=True)

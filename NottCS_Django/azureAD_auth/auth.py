@@ -1,5 +1,4 @@
 from django.contrib.auth.models import AnonymousUser
-from django.utils.translation import ugettext_lazy as _
 from rest_framework import authentication
 from rest_framework import exceptions
 import requests  # Main library for making requests to microsoft graph api
@@ -21,14 +20,14 @@ class AzureADSocialAuthentication(authentication.BaseAuthentication):
         # Check if the keyword is in the authorization header provided
         if not auth_token_list or auth_token_list[0].lower() != self.keyword.encode():
             return None
-
+        
         # Check if a token is provided before proceeding
         if len(auth_token_list) == 1:
-            msg = _('Invalid token header. No credentials provided.')
-            raise exceptions.AuthenticationFailed(msg)
+            msg = 'Invalid token header. No credentials provided.'
+            raise exceptions.AuthenticationFailed(detail=msg)
         elif len(auth_token_list) > 2:
-            msg = _('Invalid token header. Token string should not contain spaces.')
-            raise exceptions.AuthenticationFailed(msg)
+            msg = 'Invalid token header. Token string should not contain spaces.'
+            raise exceptions.AuthenticationFailed(detail=msg)
         # Checking with the Azure AD backend
         # If token valid then get user details
         # If user not exist then create new user
@@ -54,8 +53,8 @@ class AzureADSocialAuthentication(authentication.BaseAuthentication):
             )
         else:
             # Pass back the error message from microsoft graph if error happens
-            msg = _(response_json['error']['message'])
-            raise exceptions.AuthenticationFailed(msg)
+            msg = response_json['error']['message']
+            raise exceptions.AuthenticationFailed(detail=msg)
 
         # Returning a custom users for this third party authentication(Oauth2)
         # Will be updated if any other better implementation exists
