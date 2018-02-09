@@ -8,9 +8,15 @@ class IsAzureADAuthenticated(permissions.BasePermission):
     '''
     Custom Permission class tailored to the azure ad authentication
     PS: If there exists any better implementations this will be updated
+    PS: This is currently replaced by the default built-in drf IsAuthenticated permission class
     '''
 
     def has_permission(self, request, view):
+        '''
+        This implementation should be used in any situation
+        in which security bugs or implementation clashes happens
+        '''
+
         graph_endpoint = 'https://graph.microsoft.com/v1.0/me/'
         headers = {'Authorization': request.auth}
         r = requests.get(url=graph_endpoint, headers=headers)

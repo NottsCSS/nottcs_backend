@@ -47,10 +47,11 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES':[
-        'azureAD_auth.perms.IsAzureADAuthenticated',
+        # 'azureAD_auth.perms.IsAzureADAuthenticated', #Currently replaced by IsAuthenticated
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES':[
-        'azureAD_auth.auth.AzureADSocialAuthentication',
+        'azureAD_auth.auth.AzureADSocialAuthentication',  
     ]
 }
 

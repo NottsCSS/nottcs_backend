@@ -29,7 +29,6 @@ class AzureADSocialAuthentication(authentication.BaseAuthentication):
         elif len(auth_token_list) > 2:
             msg = _('Invalid token header. Token string should not contain spaces.')
             raise exceptions.AuthenticationFailed(msg)
-
         # Checking with the Azure AD backend
         # If token valid then get user details
         # If user not exist then create new user
@@ -47,7 +46,7 @@ class AzureADSocialAuthentication(authentication.BaseAuthentication):
 
             # If the user can be queried from microsoft graph
             # And has the correct domain, then update or create
-            AzureADUser.objects.update_or_create(
+            user, created = AzureADUser.objects.update_or_create(
                 email=response_json['mail'],
                 defaults={
                     'name': response_json['displayName']
@@ -58,7 +57,6 @@ class AzureADSocialAuthentication(authentication.BaseAuthentication):
             msg = _(response_json['error']['message'])
             raise exceptions.AuthenticationFailed(msg)
 
-        # Returning Annonymous users since we do not have
-        # an actual user class for this third party authentication(Oauth2)
+        # Returning a custom users for this third party authentication(Oauth2)
         # Will be updated if any other better implementation exists
-        return (AnonymousUser(), auth_token)
+        return (user, auth_token)

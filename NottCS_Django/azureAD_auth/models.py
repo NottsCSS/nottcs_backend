@@ -10,4 +10,8 @@ class AzureADUser(models.Model):
     email = models.EmailField(unique=True)
     student_id = models.PositiveIntegerField(blank=True, null=True)
     library_no = models.PositiveIntegerField(blank=True, null=True)
+    is_authenticated = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return self.email
