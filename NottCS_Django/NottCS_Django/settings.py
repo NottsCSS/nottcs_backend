@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #External apps
     'rest_framework',
+
+    #Custom apps
     'jwt_auth',
 ]
 
