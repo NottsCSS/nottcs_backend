@@ -4,4 +4,3 @@ __pycache__
 db.sqlite3
 .vscode
 secret_key.py
-Procfile
