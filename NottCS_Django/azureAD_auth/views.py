@@ -29,10 +29,11 @@ class AzureADUserPersonalView(views.APIView):
         '''
         # Check validity of input
         serializer = AzureADUserSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
+            print(serializer.data)
             user = get_object_or_404(AzureADUser, email=request.user.email) # Finds and update the user
-            user.student_id = serializer.data['student_id']
-            user.library_no = serializer.data['library_no']
+            user.student_id = serializer.data.get('student_id')
+            user.library_no = serializer.data.get('library_no')
             user.save() # Save the changes
 
             # Return the updated user object
