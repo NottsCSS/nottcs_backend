@@ -30,4 +30,5 @@ class AzureADUserSerializer(serializers.ModelSerializer):
         model = AzureADUser
         exclude = ('is_authenticated', 'date_joined', )
         read_only_fields = ('name', 'email',)
-        extra_kwargs = {'student_id': {'required': True}, 'library_no': {'required': True}}
+        # extra_kwargs = {'student_id': {'required': True}, 'library_no': {'required': True}}
+        # Removed to allow ease of updating for front end

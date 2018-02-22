@@ -21,19 +21,25 @@ class AzureADUserPersonalView(views.APIView):
         serializer = AzureADUserSerializer(user)
         return Response(serializer.data)
 
-    def put(self, request):
+    def patch(self, request):
         '''
         Update personal user details
 
-        * Only allows edit for student_id and library_no.
+        * Only allows edit for fields not related to username and email
         '''
         # Check validity of input
         serializer = AzureADUserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            print(serializer.data)
             user = get_object_or_404(AzureADUser, email=request.user.email) # Finds and update the user
-            user.student_id = serializer.data.get('student_id')
-            user.library_no = serializer.data.get('library_no')
+            # Do checks for each data, if they exists, update, else dont update.
+            if serializer.data.get('student_id'):
+                user.student_id = serializer.data.get('student_id')
+            if serializer.data.get('library_no'):
+                user.library_no = serializer.data.get('library_no')
+            if serializer.data.get('year_of_study'):
+                user.year_of_study = serializer.data.get('year_of_study')
+            if serializer.data.get('course'):    
+                user.course = serializer.data.get('course')
             user.save() # Save the changes
 
             # Return the updated user object
