@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from .models import Member
+from .models import *
+
+class EventModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('event_title','event_desp','event_start','event_end','created_timestamp','organizing_chairman','status','image','fees','event_venue')
+        read_only_fields = ('created_timestamp',)
 
 class MemberSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
