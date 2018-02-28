@@ -21,7 +21,7 @@ class AzureADUserPersonalView(views.APIView):
         serializer = AzureADUserSerializer(user)
         return Response(serializer.data)
 
-    def patch(self, request):
+    def put(self, request):
         '''
         Update personal user details
 
