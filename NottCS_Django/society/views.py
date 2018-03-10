@@ -41,4 +41,31 @@ class MemberDetailsView(generics.RetrieveUpdateDestroyAPIView):
     """This class show the details of the member like name, club, status and position."""
 
     queryset = Member.objects.all()
-    serializer_class = MemberSerializer        
+    serializer_class = MemberSerializer    
+
+class ParticipantCreateView(generics.ListCreateAPIView):
+    """Collect attendance, feedback and additional information in this view"""
+    queryset = Participant.objects.all()
+    serializer_class = ParticipantSerializer
+
+class ParticipantDetail(generics.ListAPIView):
+    """Return a list of event that has been participated by the user"""
+    serializer_class = ParticipantSerializer
+    def get_queryset(self):
+        
+        queryset = Participant.objects.all()
+        username = self.request.query_params.get('user', None)
+        if username is not None:
+            queryset = queryset.filter(user__icontains=username)
+        return queryset
+
+class EventParticipantList(generics.ListAPIView):
+    """Return a list of event participants given the correct event_id"""
+    serializer_class = ParticipantSerializer
+    def get_queryset(self):
+        
+        queryset = Participant.objects.all()
+        event_id = self.request.query_params.get('event_id', None)
+        if event_id is not None:
+            queryset = queryset.filter(event_id__icontains=event_id)
+        return queryset    

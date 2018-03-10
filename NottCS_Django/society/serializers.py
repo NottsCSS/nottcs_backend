@@ -18,7 +18,7 @@ class MemberSerializer(serializers.ModelSerializer):
 
 class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Participant
+        model = Participant
         fields = (
             "user",
             "event_id",

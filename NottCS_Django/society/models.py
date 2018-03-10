@@ -41,7 +41,8 @@ class Member(models.Model):
         return "{}".format(self.user)
 
 class Participant(models.Model):
-    user = models.CharField(max_length=50, null=False, unique=True)
+    user = models.CharField(max_length=50, null=False)
+    #uses event_id as placeholder as the design of attendance table is not finalised
     event_id = models.CharField(max_length=50, null=False, default='None')
     
     ABSENT = 'ABSENT'
