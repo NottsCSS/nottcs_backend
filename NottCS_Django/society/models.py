@@ -39,3 +39,21 @@ class Member(models.Model):
     def __str__(self):
         """Return a human readable representation of the model instance."""
         return "{}".format(self.user)
+
+class Participant(models.Model):
+    user = models.CharField(max_length=50, null=False, unique=True)
+    event_id = models.CharField(max_length=50, null=False, default='None')
+    
+    ABSENT = 'ABSENT'
+    PRESENT = 'PRESENT'
+    ATTENDANCE_CHOICE = (
+        (ABSENT, 'Absent'),
+        (PRESENT, 'Present')
+    ) 
+    attendance = models.CharField(max_length=10, choices=ATTENDANCE_CHOICE, default=ABSENT)
+    
+    additional_info = models.TextField(blank=True)
+    feedback = models.TextField(blank=True)
+    
+    def __str__(self):
+        return self.user
