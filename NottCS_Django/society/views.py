@@ -27,6 +27,29 @@ class EventViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+class ClubViewSet(viewsets.ModelViewSet):
+    """
+    A simple ViewSet for viewing and editing accounts.
+    """
+    queryset = Club.objects.all()
+    serializer_class = ClubModelSerializer
+        
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        
+        queryset = Club.objects.all()
+        Club_name = self.request.query_params.get('club_name', None)
+        #User_Pk = self.request.query_params.get('User_Pk', None)
+        if Club_name is not None:
+            queryset = queryset.filter(club_name__icontains=Club_name)
+        #if User_Pk is not None:
+        #    queryset.objects.filter( User_Pk__contains=User_Pk )
+        return queryset
+
+
 
 class MemberCreateView(generics.ListCreateAPIView):
     """This class defines the create behavior of our rest api."""

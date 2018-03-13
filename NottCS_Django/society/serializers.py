@@ -7,6 +7,13 @@ class EventModelSerializer(serializers.ModelSerializer):
         fields = ('event_title','event_desp','event_start','event_end','created_timestamp','organizing_chairman','status','image','fees','event_venue')
         read_only_fields = ('created_timestamp',)
 
+
+class ClubModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club
+        fields = ('club_name', 'club_desp','club_icon','created_timestamp','updated_timestamp')
+        read_only_fields = ('created_timestamp','updated_timestamp')
+
 class MemberSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
 
