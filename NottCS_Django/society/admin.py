@@ -3,8 +3,8 @@ from .models import *
 # Register your models here.
 
 class EventAdmin(admin.ModelAdmin):
-    fields = ('event_title', 'event_desp', 'event_start', 'event_end','created_timestamp','organizing_chairman','status','fees','event_venue')
-    list_display = ('event_title', 'event_desp', 'event_start', 'event_end','created_timestamp','organizing_chairman','status','fees','event_venue')
+    fields = ('title', 'description','created_timestamp','organizing_chairman','status','fees','event_venue')
+    list_display = ('title', 'description','created_timestamp','organizing_chairman','status','fees','event_venue')
     list_filter = ()
 
 class MemberAdmin(admin.ModelAdmin):

@@ -7,6 +7,12 @@ class EventModelSerializer(serializers.ModelSerializer):
         fields = ('event_title','event_desp','event_start','event_end','created_timestamp','organizing_chairman','status','image','fees','event_venue')
         read_only_fields = ('created_timestamp',)
 
+class EventTimeModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventTime
+        fields = ('event', 'start_time','start_time')
+        read_only_fields = ('created_timestamp','updated_timestamp')
+
 
 class ClubModelSerializer(serializers.ModelSerializer):
     class Meta:

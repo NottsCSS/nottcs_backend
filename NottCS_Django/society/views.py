@@ -5,17 +5,11 @@ from .serializers import *
 from .models import *
 
 class EventViewSet(viewsets.ModelViewSet):
-    """
-    A simple ViewSet for viewing and editing accounts.
-    """
+
     queryset = Event.objects.all()
     serializer_class = EventModelSerializer
     	
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
 		
         queryset = Event.objects.all()
         event_title = self.request.query_params.get('event_title', None)
@@ -26,19 +20,23 @@ class EventViewSet(viewsets.ModelViewSet):
             #queryset = queryset.filter(organising_club=organizing_club)
         return queryset
 
+class EventTimeViewSet(viewsets.ModelViewSet):
+
+    queryset = EventTime.objects.all()
+    serializer_class = EventTimeModelSerializer
+        
+    def get_queryset(self):
+    
+        queryset = EventTime.objects.all()
+        return queryset
+
 
 class ClubViewSet(viewsets.ModelViewSet):
-    """
-    A simple ViewSet for viewing and editing accounts.
-    """
     queryset = Club.objects.all()
     serializer_class = ClubModelSerializer
         
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
+        
         
         queryset = Club.objects.all()
         Club_name = self.request.query_params.get('club_name', None)
