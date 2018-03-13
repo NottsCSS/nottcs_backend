@@ -28,3 +28,14 @@ class MemberSerializer(serializers.ModelSerializer):
         model = Member
         fields = ('id', 'user', 'club', 'status', 'position', 'date_created', 'date_modified')
         read_only_fields = ('date_created', 'date_modified')
+
+class ParticipantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Participant
+        fields = (
+            "user",
+            "event_id",
+            "attendance",
+            "additional_info",
+            "feedback"
+        )
