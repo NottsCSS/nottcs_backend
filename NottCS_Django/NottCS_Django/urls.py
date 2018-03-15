@@ -23,3 +23,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('society.urls'))
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# title and header of admin page
+admin.site.index_title = 'Administration Panel'
+admin.site.site_title = 'Admin'
+admin.site.site_header = 'Society App Backend | Admin'
