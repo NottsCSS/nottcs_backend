@@ -1,21 +1,73 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics,views, status
 from rest_framework import viewsets
+from rest_framework.response import Response
 from .serializers import *
 from .models import *
+import json
+
+class EventView(views.APIView):
+    '''
+    def get(self, request):
+        event = Event.objects.all()
+        serializer = EventModelDepthSerializer(data=event)
+        if serializer.is_valid(raise_exception=True):
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    '''
+    def post(self, request):
+        data = request.data
+        event_serializer = EventModelCreateSerializer(data=data)
+        if event_serializer.is_valid(raise_exception=True): 
+            event_serializer.save()
+            data = data['time']
+            for i in range(len(data)):
+                data[i]['event'] = event_serializer.data['id']
+            
+            eventtime_serializer = EventTimeModelSerializer(data=data,many=True)
+            if eventtime_serializer.is_valid(raise_exception=True): 
+                eventtime_serializer.save()
+                return Response(eventtime_serializer.data)
+            return Response(eventtime_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(event_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ParticipantView(views.APIView):
+    def post(self, request):
+        data = request.data
+        participant_serializer = ParticipantSerializer(data=data)
+        if participant_serializer.is_valid(raise_exception=True): 
+            participant_serializer.save()
+            data = []
+
+            event_time = EventTime.objects.filter(event__id=participant_serializer.data['event']).values('id')
+            for i in range(len(event_time)):
+                data.append({"participant":participant_serializer.data['id'],"event":event_time[i]})
+
+            attendance_serializer = AttendanceSerializer(data=data,many=True)
+            if attendance_serializer.is_valid(raise_exception=True): 
+                attendance_serializer.save()
+                return Response(attendance_serializer.data)
+            return Response(attendance_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(participant_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class EventViewSet(viewsets.ModelViewSet):
 
     queryset = Event.objects.all()
-    serializer_class = EventModelSerializer
-    	
+    #serializer_class = EventModelSerializer
+    
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return EventModelCreateSerializer
+        else:
+            return EventModelDepthSerializer(1)
+
     def get_queryset(self):
 		
         queryset = Event.objects.all()
-        event_title = self.request.query_params.get('event_title', None)
+        title = self.request.query_params.get('title', None)
         #organizing_club = self.request.query_params.get('organizing_club', None)
-        if event_title is not None:
-            queryset = queryset.filter(event_title=event_title)
+        if title is not None:
+            queryset = queryset.filter(title=title)
         #if organizing_club is not None:
             #queryset = queryset.filter(organising_club=organizing_club)
         return queryset

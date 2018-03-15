@@ -6,11 +6,13 @@ from .views import *
 
 router = DefaultRouter()
 router.register(r'event', EventViewSet, base_name='event')
+router.register(r'eventtime', EventTimeViewSet, base_name='eventtime')
 router.register(r'club', ClubViewSet, base_name='club')
 urlpatterns = {
     url(r'^member/$', MemberCreateView.as_view(), name="create"),
     url(r'^member/(?P<pk>[0-9]+)/$',MemberDetailsView.as_view(), name="details"),
-    
+    url(r'^eventspec/$', EventView.as_view(), name="eventspec"),
+    url(r'^participantspec/$', ParticipantView.as_view(), name="participantspec"),
     #Create participant
     path('participantcreate/', ParticipantCreateView.as_view()),
     # Return a list of event that has been participated by the user
