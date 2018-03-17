@@ -26,5 +26,5 @@ urlpatterns = [
 
 # title and header of admin page
 admin.site.index_title = 'Administration Panel'
-admin.site.site_title = 'Admin'
+admin.site.site_title = 'Backend'
 admin.site.site_header = 'Society App Backend | Admin'
