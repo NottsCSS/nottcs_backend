@@ -5,23 +5,11 @@ from rest_framework.routers import DefaultRouter
 from .views import *
 
 router = DefaultRouter()
-router.register(r'event', EventViewSet, base_name='event')
-router.register(r'eventtime', EventTimeViewSet, base_name='eventtime')
-router.register(r'club', ClubViewSet, base_name='club')
-urlpatterns = {
-    url(r'^member/$', MemberCreateView.as_view(), name="create"),
-    url(r'^member/(?P<pk>[0-9]+)/$',MemberDetailsView.as_view(), name="details"),
-    url(r'^eventspec/$', EventView.as_view(), name="eventspec"),
-    url(r'^participantspec/$', ParticipantView.as_view(), name="participantspec"),
-    #Create participant
-    path('participantcreate/', ParticipantCreateView.as_view()),
-    # Return a list of event that has been participated by the user
-    # Format : /participantdetail?user=
-    path('participantdetail/', ParticipantDetail.as_view()),
-    # Return a list of event participants
-    # Format : /event/?event_id=
-    path('eventparticipant/', EventParticipantList.as_view()),
-}
+router.register(r'event', EventModelViewSet, base_name='event')
+router.register(r'event-time', EventTimeModelViewSet, base_name='event-time')
+router.register(r'participant', ParticipantModelViewSet, base_name='participants')
+router.register(r'club', ClubModelViewSet, base_name='club')
+router.register(r'member', MemberModelViewSet, base_name='member')
+router.register(r'attendence', AttendenceModelViewSet, base_name='attendence')
 
-urlpatterns = format_suffix_patterns(urlpatterns)
-urlpatterns += router.urls
+urlpatterns = router.urls
