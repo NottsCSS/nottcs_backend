@@ -74,6 +74,6 @@ class ParticipantModelViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class AttendenceModelViewSet(viewsets.ModelViewSet):
+class AttendanceModelViewSet(viewsets.ModelViewSet):
     queryset = Attendance.objects.all()
     serializer_class = AttendanceModelSerializer

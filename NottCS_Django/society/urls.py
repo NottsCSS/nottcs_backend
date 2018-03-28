@@ -10,6 +10,6 @@ router.register(r'event-time', EventTimeModelViewSet, base_name='event-time')
 router.register(r'participant', ParticipantModelViewSet, base_name='participants')
 router.register(r'club', ClubModelViewSet, base_name='club')
 router.register(r'member', MemberModelViewSet, base_name='member')
-router.register(r'attendence', AttendenceModelViewSet, base_name='attendence')
+router.register(r'attendance', AttendanceModelViewSet, base_name='attendance')
 
 urlpatterns = router.urls
