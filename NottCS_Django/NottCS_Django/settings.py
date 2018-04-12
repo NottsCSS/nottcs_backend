@@ -56,7 +56,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES':[
-        'azureAD_auth.auth.AzureADSocialAuthentication',  
+        #'azureAD_auth.auth.AzureADSocialAuthentication',  
     ]
 }
 
