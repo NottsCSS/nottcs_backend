@@ -12,12 +12,11 @@ class Event(models.Model):
         'Member', on_delete=models.PROTECT, null=True)
     fees = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
-    STATUS_CHOICES = ('Pending',
-                      'Started',
-                      'Ended',
-                      'Cancelled',)
-    status = models.CharField(
-        max_length=2, choices=STATUS_CHOICES, default='Pending')
+    STATUS_CHOICES = ((0, 'Pending'),
+                      (1, 'Started'),
+                      (3, 'Ended'),
+                      (4, 'Cancelled'),)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0)
     image = models.ImageField(upload_to='media/Event/',
                               default='/media/Default/noImage.png')
     venue = models.CharField(max_length=200)
@@ -68,9 +67,8 @@ class Member(models.Model):
     position = models.CharField(max_length=50, blank=False, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    STATUS_CHOICES = ('Pending', 'Approved', 'Cancelled')
-    status = models.CharField(
-        max_length=2, choices=STATUS_CHOICES, default='Pending')
+    STATUS_CHOICES = ((0, 'Pending'), (1, 'Approved'), (2, 'Cancelled'))
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0)
 
     def __str__(self):
         return "{}".format(self.user)
@@ -82,9 +80,8 @@ class Participant(models.Model):
     event = models.ForeignKey('Event', on_delete=models.PROTECT)
     additional_file = models.FileField(upload_to='media/etc/', blank=True)
     additional_info = models.TextField(blank=True)
-    STATUS_CHOICES = ('Pending', 'Approved', 'Cancelled')
-    status = models.CharField(
-        max_length=2, choices=STATUS_CHOICES, default='Pending')
+    STATUS_CHOICES = ((0, 'Pending'), (1, 'Approved'), (2, 'Cancelled'))
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0)
 
     class Meta:
         unique_together = ('user', 'event',)
@@ -99,13 +96,8 @@ class Attendance(models.Model):
     event_time = models.ForeignKey(
         'EventTime', on_delete=models.PROTECT, null=True)
 
-    ABSENT = 'ABSENT'
-    PRESENT = 'PRESENT'
-    ATTENDANCE_CHOICE = (
-        (ABSENT, 'Absent'),
-        (PRESENT, 'Present'))
-    attendance = models.CharField(
-        max_length=10, choices=ATTENDANCE_CHOICE, default=ABSENT)
+    ATTENDANCE_CHOICE = ((0, 'Absent'), (1, 'Present'))
+    attendance = models.IntegerField(choices=ATTENDANCE_CHOICE, default=0)
     feedback = models.TextField(blank=True, default="")
 
     def __str__(self):
