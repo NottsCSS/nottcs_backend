@@ -52,8 +52,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 25,
     'DEFAULT_PERMISSION_CLASSES':[
         # 'azureAD_auth.perms.IsAzureADAuthenticated', #Currently replaced by IsAuthenticated
-        # 'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES':[
         'azureAD_auth.auth.AzureADSocialAuthentication',  
