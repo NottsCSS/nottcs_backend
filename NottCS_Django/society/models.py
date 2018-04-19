@@ -57,9 +57,6 @@ class Club(models.Model):
     def __str__(self):
         return self.name
 
-# TODO: Status and Position changes
-
-
 class Member(models.Model):
     user = models.ForeignKey('azureAD_auth.AzureADUser',
                              on_delete=models.PROTECT, null=True)

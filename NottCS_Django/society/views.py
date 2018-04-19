@@ -13,16 +13,23 @@ class EventModelViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Event.objects.all()
         title = self.request.query_params.get('title', None)
-        organizing_club = self.request.query_params.get('organizing_club', None)
+        club = self.request.query_params.get('club', None)
         if title is not None:
             queryset = queryset.filter(title__icontains=title)
-        if organizing_club is not None:
-            queryset = queryset.filter(organising_club__icontains=organizing_club)
+        if club is not None:
+            queryset = queryset.filter(organizing_club__name__icontains=club)
         return queryset
 
+
 class EventTimeModelViewSet(viewsets.ModelViewSet):
-    queryset = EventTime.objects.all()
     serializer_class = EventTimeModelSerializer
+
+    def get_queryset(self):
+        queryset = EventTime.objects.all()
+        event = self.request.query_params.get('event', None)
+        if event is not None:
+            queryset = queryset.filter(event__title__icontains=event)
+        return queryset
 
 
 class ClubModelViewSet(viewsets.ModelViewSet):
@@ -31,18 +38,27 @@ class ClubModelViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Club.objects.all()
-        club_name = self.request.query_params.get('club_name', None)
-        # user_pk = self.request.query_params.get('user_pk', None)
+        club_name = self.request.query_params.get('clubName', None)
         if club_name is not None:
-            queryset = queryset.filter(club_name__icontains=club_name)
-        # if User_Pk is not None:
-        #    queryset.objects.filter( User_Pk__contains=User_Pk )
+            queryset = queryset.filter(name__icontains=club_name)
         return queryset
 
 
 class MemberModelViewSet(viewsets.ModelViewSet):
-    queryset = Member.objects.all()
     serializer_class = MemberModelSerializer
+
+    def get_queryset(self):
+        queryset = Member.objects.all()
+        club = self.request.query_params.get('club', None)
+        username = self.request.query_params.get('username', None)
+        user_id = self.request.query_params.get('userID', None)
+        if club is not None:
+            queryset = queryset.filter(club__name__icontains=club)
+        if username is not None:
+            queryset = queryset.filter(user__name__icontains=username)
+        if user_id is not None:
+            queryset = queryset.filter(user__pk=user_id)
+        return queryset
 
 
 class ParticipantModelViewSet(viewsets.ModelViewSet):
@@ -51,13 +67,17 @@ class ParticipantModelViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = Participant.objects.all()
+        user_id = request.query_params.get('userID', None)
         username = request.query_params.get('username', None)
-        event_id = request.query_params.get('event_id', None)
+        event_id = request.query_params.get('eventID', None)
+        if user_id is not None:
+            queryset = Participant.objects.filter(
+                user__id=user_id)
         if username is not None:
             queryset = Participant.objects.filter(
                 user__name__icontains=username)
         if event_id is not None:
-            queryset = Participant.objects.filter(event___icontains=event_id)
+            queryset = Participant.objects.filter(event__id=event_id)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -69,5 +89,14 @@ class ParticipantModelViewSet(viewsets.ModelViewSet):
 
 
 class AttendanceModelViewSet(viewsets.ModelViewSet):
-    queryset = Attendance.objects.all()
     serializer_class = AttendanceModelSerializer
+
+    def get_queryset(self):
+        queryset = Attendance.objects.all()
+        event_id = self.request.query_params.get('eventID', None)
+        participant_id = self.request.query_params.get('participantID', None)
+        if event_id is not None:
+            queryset = queryset.filter(event_time__event__id=event_id)
+        if participant_id is not None:
+            queryset = queryset.filter(participant__id=participant_id)
+        return queryset
