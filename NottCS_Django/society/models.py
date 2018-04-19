@@ -10,13 +10,14 @@ class Event(models.Model):
         'Club', on_delete=models.PROTECT, null=True)
     organizing_chairman = models.ForeignKey(
         'Member', on_delete=models.PROTECT, null=True)
+    fees = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
-    STATUS_CHOICES = (('PD', 'Pending'),
-                      ('ST', 'Started'),
-                      ('ED', 'Ended'),
-                      ('CC', 'Cenceled'),)
+    STATUS_CHOICES = ('Pending',
+                      'Started',
+                      'Ended',
+                      'Cancelled',)
     status = models.CharField(
-        max_length=2, choices=STATUS_CHOICES, default='PD')
+        max_length=2, choices=STATUS_CHOICES, default='Pending')
     image = models.ImageField(upload_to='media/Event/',
                               default='/media/Default/noImage.png')
     venue = models.CharField(max_length=200)
@@ -33,7 +34,7 @@ class Event(models.Model):
 class EventTime(models.Model):
     event = models.ForeignKey('Event', on_delete=models.PROTECT, null=True)
     start_time = models.DateTimeField(blank=True)
-    end_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(blank=True)
 
     class Meta:
         ordering = ('start_time',)
@@ -57,15 +58,19 @@ class Club(models.Model):
     def __str__(self):
         return self.name
 
+# TODO: Status and Position changes
+
 
 class Member(models.Model):
     user = models.ForeignKey('azureAD_auth.AzureADUser',
                              on_delete=models.PROTECT, null=True)
     club = models.ForeignKey('Club', on_delete=models.PROTECT, null=True)
-    status = models.CharField(max_length=50, blank=False, unique=True)
     position = models.CharField(max_length=50, blank=False, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    STATUS_CHOICES = ('Pending', 'Approved', 'Cancelled')
+    status = models.CharField(
+        max_length=2, choices=STATUS_CHOICES, default='Pending')
 
     def __str__(self):
         return "{}".format(self.user)
@@ -77,7 +82,9 @@ class Participant(models.Model):
     event = models.ForeignKey('Event', on_delete=models.PROTECT)
     additional_file = models.FileField(upload_to='media/etc/', blank=True)
     additional_info = models.TextField(blank=True)
-    # addtional_info = JSONField()
+    STATUS_CHOICES = ('Pending', 'Approved', 'Cancelled')
+    status = models.CharField(
+        max_length=2, choices=STATUS_CHOICES, default='Pending')
 
     class Meta:
         unique_together = ('user', 'event',)

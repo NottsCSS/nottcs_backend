@@ -8,23 +8,17 @@ from .models import *
 
 class EventModelViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
-    
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return EventModelSerializer
-        else:
-            return EventModelDepthSerializer
+    serializer_class = EventModelSerializer
 
     def get_queryset(self):
         queryset = Event.objects.all()
         title = self.request.query_params.get('title', None)
-        #organizing_club = self.request.query_params.get('organizing_club', None)
+        organizing_club = self.request.query_params.get('organizing_club', None)
         if title is not None:
-            queryset = queryset.filter(title=title)
-        # if organizing_club is not None:
-            #queryset = queryset.filter(organising_club=organizing_club)
+            queryset = queryset.filter(title__icontains=title)
+        if organizing_club is not None:
+            queryset = queryset.filter(organising_club__icontains=organizing_club)
         return queryset
-
 
 class EventTimeModelViewSet(viewsets.ModelViewSet):
     queryset = EventTime.objects.all()
