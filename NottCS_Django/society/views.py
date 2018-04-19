@@ -56,7 +56,7 @@ class MemberModelViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(club__name__icontains=club)
         if username is not None:
             queryset = queryset.filter(user__name__icontains=username)
-        if user_id is not None:
+        if user_id is not None and type(user_id) is int:
             queryset = queryset.filter(user__pk=user_id)
         return queryset
 
@@ -70,13 +70,13 @@ class ParticipantModelViewSet(viewsets.ModelViewSet):
         user_id = request.query_params.get('userID', None)
         username = request.query_params.get('username', None)
         event_id = request.query_params.get('eventID', None)
-        if user_id is not None:
+        if user_id is not None and type(user_id) is int:
             queryset = Participant.objects.filter(
                 user__id=user_id)
         if username is not None:
             queryset = Participant.objects.filter(
                 user__name__icontains=username)
-        if event_id is not None:
+        if event_id is not None and type(event_id) is int:
             queryset = Participant.objects.filter(event__id=event_id)
 
         page = self.paginate_queryset(queryset)
@@ -95,7 +95,7 @@ class AttendanceModelViewSet(viewsets.ModelViewSet):
         queryset = Attendance.objects.all()
         event_id = self.request.query_params.get('eventID', None)
         participant_id = self.request.query_params.get('participantID', None)
-        if event_id is not None:
+        if event_id is not None and type(event_id) is int:
             queryset = queryset.filter(event_time__event__id=event_id)
         if participant_id is not None:
             queryset = queryset.filter(participant__id=participant_id)
