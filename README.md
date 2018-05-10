@@ -1,5 +1,6 @@
 <h1>NottCS_Backend</h1>
-<p>Backend for the nottingham Club and Society app. This is a student run club project by the Computer Science Society (CSS) of The University of Nottingham Malaysia Campus.</p>
+<p>Backend for the nottingham Club and Society app. </p>
+<p>This is a student run club project by the Computer Science Society (CSS) of The University of Nottingham Malaysia Campus.</p>
 
 <h2>Background</h2>
 <p>There are many processes that clubs and societies in UNMC have to go through that are currently tedious which could be simplified by a lot.</p>
