@@ -23,13 +23,13 @@ class AzureADUserModelTest(TestCase):
         user = AzureADUser.objects.get(email="user@somemail.com")
         user2 = AzureADUser.objects.get(email="user2@somemail.com")
         self.assertEqual(user.student_id, None)
-        self.assertEqual(user2.student_id, 20012133)
+        self.assertEqual(user2.student_id, '20012133')
     
     def test_user_can_have_null_library_no(self):
         user = AzureADUser.objects.get(email="user@somemail.com")
         user2 = AzureADUser.objects.get(email="user2@somemail.com")
         self.assertEqual(user.library_no, None)
-        self.assertEqual(user2.library_no, 2001331231)
+        self.assertEqual(user2.library_no, '2001331231')
 
 
 class AzureADSocialAuthenticationTest(TestCase):
