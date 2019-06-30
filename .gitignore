@@ -1,7 +1,9 @@
-Nott_CS_VE
+.ve
 __pycache__
 *.pyc
-db.sqlite3
+
 .vscode
+
+db.sqlite3
+
 secret_key.py
-ve
